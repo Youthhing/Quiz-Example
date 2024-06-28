@@ -25,18 +25,17 @@ public class Reply {
     @Column(name = "ticket_number")
     private Long ticketNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
     @Builder
-    public Reply(Long ticketNumber, Member member, Quiz quiz) {
+    public Reply(Long ticketNumber, final Long memberId, Quiz quiz) {
         this.ticketNumber = ticketNumber;
-        this.member = member;
+        this.memberId = memberId;
         this.quiz = quiz;
     }
 }
