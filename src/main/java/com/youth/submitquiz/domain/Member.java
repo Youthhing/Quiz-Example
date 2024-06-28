@@ -15,15 +15,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "member_name")
-    private String name;
+    @Column(name = "member_order")
+    private Long order;
 
     @Builder
-    public Member(String name) {
-        this.name = name;
+    public Member(Long order) {
+        this.order = order;
     }
 }
