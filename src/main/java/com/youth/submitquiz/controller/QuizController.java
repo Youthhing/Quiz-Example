@@ -23,7 +23,7 @@ public class QuizController {
     @PostMapping
     public ResponseEntity<Void> createQuiz(@RequestBody CreateQuizRequest request){
         quizService.uploadQuiz(request);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")
