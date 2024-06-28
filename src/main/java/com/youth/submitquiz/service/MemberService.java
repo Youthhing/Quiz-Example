@@ -13,9 +13,10 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public void createMembers(Long count){
         for (int i = 0; i < count; i++) {
-            memberRepository.save(Member.builder().name("SameName").build());
+            memberRepository.save(Member.builder().order(Long.valueOf(i)).build());
         }
     }
 }
