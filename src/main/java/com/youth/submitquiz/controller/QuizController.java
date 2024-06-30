@@ -21,13 +21,19 @@ public class QuizController {
     private final QuizService quizService;
 
     @PostMapping
-    public ResponseEntity<Void> createQuiz(@RequestBody CreateQuizRequest request){
+    public ResponseEntity<Void> createQuiz(@RequestBody CreateQuizRequest request) {
         quizService.uploadQuiz(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FindQuizResponse> getQuiz(@PathVariable("id") Long id){
+    public ResponseEntity<FindQuizResponse> getQuiz(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(quizService.findQuiz(id));
+    }
+
+    @PostMapping("/start")
+    public ResponseEntity<Void> startQuiz() {
+        quizService.saveToCache();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

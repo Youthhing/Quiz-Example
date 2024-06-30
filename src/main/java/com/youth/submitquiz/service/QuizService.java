@@ -3,6 +3,7 @@ package com.youth.submitquiz.service;
 import com.youth.submitquiz.domain.Quiz;
 import com.youth.submitquiz.dto.CreateQuizRequest;
 import com.youth.submitquiz.dto.FindQuizResponse;
+import com.youth.submitquiz.redis.ScorerExistRepository;
 import com.youth.submitquiz.repository.QuizRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuizService {
 
     private final QuizRepository quizRepository;
+    private final ScorerExistRepository scorerExistRepository;
 
     @Transactional
     public void uploadQuiz(CreateQuizRequest request) {
@@ -31,5 +33,12 @@ public class QuizService {
     public FindQuizResponse findQuiz(Long id) {
         Quiz findQuiz = quizRepository.findById(id).orElseThrow();
         return FindQuizResponse.from(findQuiz);
+    }
+
+    public void saveToCache() {
+        List<Long> quizIds = quizRepository.findAll().stream()
+                .map(Quiz::getId)
+                .toList();
+        quizIds.forEach(scorerExistRepository::setCache);
     }
 }
