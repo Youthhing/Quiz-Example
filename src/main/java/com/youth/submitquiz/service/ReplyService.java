@@ -37,19 +37,21 @@ public class ReplyService {
         log.info("[티켓 번호]: {}, [요청 시간] : {}", ticketNumber, LocalDateTime.now());
 
         Quiz findQuiz = quizRepository.findById(request.quizId()).orElseThrow();
-        Member findMember = memberRepository.findById(request.memberId()).orElseThrow();
+        Member findMember = memberRepository.findById(request.memberId())
+                .orElseThrow(() -> new RuntimeException("멤버 못찾음?"));
 
         boolean isAnswer = isAnswer(findQuiz, request.answer());
 
         // 정답이면 Redis에 Scorer의 ticketNumber 값을 저장하라  -> 이후에 느린 요청이 오더라도 컷 당함.
-        if (isAnswer && scorerExistRepository.saveScorerIfFastest(findQuiz, ticketNumber)) {
+        if (isAnswer && scorerExistRepository.saveScorerIfFastest(findQuiz.getId(), ticketNumber)) {
+            log.info("[정답인 요청] : {}", ticketNumber);
             scorerRepository.findByQuizId(findQuiz.getId()).ifPresentOrElse(
                     scorer -> {
+                        log.info("득점자 업데이트 : {}", ticketNumber);
                         scorer.updateMember(findMember.getId());
                         scorerRepository.save(scorer);
                     },
-                    () -> scorerRepository.save(Scorer.builder()
-                            .build())
+                    () -> createScorer(findQuiz, findMember, ticketNumber)
             );
         }
 
@@ -61,6 +63,16 @@ public class ReplyService {
                 .build());
 
         return ReplyResponse.of(isAnswer, findMember.getId(), ticketNumber);
+    }
+
+    @Transactional
+    public void createScorer(Quiz findQuiz, Member findMember, Long ticketNumber) {
+        log.info("득점자 생성 : {}", ticketNumber);
+        scorerRepository.save(Scorer.builder()
+                .memberId(findMember.getId())
+                .quizId(findQuiz.getId())
+                .build());
+        scorerExistRepository.saveScorer(findQuiz.getId(), ticketNumber);
     }
 
     private boolean isAnswer(Quiz quiz, Long answer) {
