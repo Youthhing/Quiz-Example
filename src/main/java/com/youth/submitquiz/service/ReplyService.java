@@ -13,7 +13,6 @@ import com.youth.submitquiz.repository.QuizRepository;
 import com.youth.submitquiz.repository.ReplyRepository;
 import com.youth.submitquiz.repository.ScorerRepository;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -60,7 +59,7 @@ public class ReplyService {
                 .ticketNumber(ticketNumber)
                 .build());
 
-        return ReplyResponse.from(isAnswer);
+        return ReplyResponse.of(isAnswer, findMember.getId(), ticketNumber);
     }
 
     private boolean isAnswer(Quiz quiz, Long answer) {
