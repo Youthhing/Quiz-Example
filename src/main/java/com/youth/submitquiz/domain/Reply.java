@@ -28,14 +28,18 @@ public class Reply {
     @Column(name = "member_id", nullable = false)
     private Long memberId;
 
+    @Column(name = "reply_result", nullable = false)
+    private Boolean result;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
     @Builder
-    public Reply(Long ticketNumber, final Long memberId, Quiz quiz) {
+    public Reply(Long ticketNumber, final Long memberId, Quiz quiz, Boolean result) {
         this.ticketNumber = ticketNumber;
         this.memberId = memberId;
         this.quiz = quiz;
+        this.result = result;
     }
 }

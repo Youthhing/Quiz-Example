@@ -57,6 +57,7 @@ public class ReplyService {
                 .quiz(findQuiz)
                 .memberId(findMember.getId())
                 .ticketNumber(ticketNumber)
+                .result(isAnswer)
                 .build());
 
         return ReplyResponse.of(isAnswer, findMember.getId(), ticketNumber);
