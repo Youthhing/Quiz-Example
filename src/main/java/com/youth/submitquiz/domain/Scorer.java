@@ -29,4 +29,8 @@ public class Scorer {
         this.quizId = quizId;
         this.memberId = memberId;
     }
+
+    public void updateMember(Long memberId) {
+        this.memberId = memberId;
+    }
 }
