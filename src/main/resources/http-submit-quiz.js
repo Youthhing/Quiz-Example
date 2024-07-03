@@ -6,9 +6,9 @@ export default function () {
     const url = 'http://localhost:8080/api/reply';
 
     const payload = JSON.stringify({
-        quizId: 2, // 실제 테스트에서 필요한 값으로 변경하세요
-        memberId: randomIntBetween(1, 40),
-        answer: 2 // 실제 테스트에서 필요한 값으로 변경하세요
+        quizId: 3, // 실제 테스트에서 필요한 값으로 변경하세요
+        memberId: randomIntBetween(1, 4400),
+        answer: 3 // 실제 테스트에서 필요한 값으로 변경하세요
     });
 
     const params = {
