@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public class TicketNumberRepository {
 
     private static final String KEY_PREFIX = "$quiz_";
-    private final RedisTemplate<String , String > redisTemplate;
+    private final RedisTemplate<String , String> redisTemplate;
 
     public Long increment(Long quizId){
         String key = KEY_PREFIX + quizId;
