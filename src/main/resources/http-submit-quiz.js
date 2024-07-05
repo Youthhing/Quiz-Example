@@ -7,7 +7,7 @@ export default function () {
 
     const payload = JSON.stringify({
         quizId: 1, // 실제 테스트에서 필요한 값으로 변경하세요
-        memberId: randomIntBetween(0, 40),
+        memberId: randomIntBetween(1, 100),
         answer: 1 // 실제 테스트에서 필요한 값으로 변경하세요
     });
 
