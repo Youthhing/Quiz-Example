@@ -19,7 +19,8 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping
-    public ResponseEntity<ReplyResponse> submitAnswer(@RequestBody SubmitAnswerRequest request){
+    public ResponseEntity<ReplyResponse> submitAnswer(@RequestBody SubmitAnswerRequest request)
+            throws InterruptedException {
         return ResponseEntity.status(HttpStatus.OK).body(replyService.submitAnswer(request));
     }
 }
