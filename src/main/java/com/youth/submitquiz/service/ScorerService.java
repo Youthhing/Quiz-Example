@@ -4,7 +4,6 @@ import com.youth.submitquiz.domain.Member;
 import com.youth.submitquiz.domain.Quiz;
 import com.youth.submitquiz.domain.Scorer;
 import com.youth.submitquiz.repository.ScorerRepository;
-import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScorerService {
 
     private final ScorerRepository scorerRepository;
-    private final EntityManager entityManager;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void checkAndThenUpdate(Quiz quiz, Member member, Long ticketNumber) {
         Optional<Scorer> maybeScorer = scorerRepository.findByQuizId(quiz.getId());
-        log.info("[영속성 컨텍스트]: {}, {}", entityManager, ticketNumber);
+        log.info("[영속성 컨텍스트]: {}", ticketNumber);
         maybeScorer.ifPresentOrElse(
                 scorer -> {
                     if (scorer.getTicketNumber() > ticketNumber) {
@@ -41,7 +39,7 @@ public class ScorerService {
                             .memberId(member.getId())
                             .quizId(quiz.getId())
                             .build());
-                    log.info("==== 생성 시간 ==== {}" , LocalDateTime.now());
+                    log.info("==== 생성 시간 ==== {}", LocalDateTime.now());
                 }
         );
     }
