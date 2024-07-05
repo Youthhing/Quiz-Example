@@ -23,7 +23,7 @@ public class ScorerService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void checkAndThenUpdate(Quiz quiz, Member member, Long ticketNumber) {
         Optional<Scorer> maybeScorer = scorerRepository.findByQuizId(quiz.getId());
-        log.info("[영속성 컨텍스트]: {}", ticketNumber);
+
         maybeScorer.ifPresentOrElse(
                 scorer -> {
                     if (scorer.getTicketNumber() > ticketNumber) {
