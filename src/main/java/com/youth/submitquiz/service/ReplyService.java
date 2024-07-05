@@ -5,7 +5,7 @@ import com.youth.submitquiz.domain.Quiz;
 import com.youth.submitquiz.domain.Reply;
 import com.youth.submitquiz.dto.ReplyResponse;
 import com.youth.submitquiz.dto.SubmitAnswerRequest;
-import com.youth.submitquiz.facade.LettuceLockScorerUpdateFacade;
+import com.youth.submitquiz.facade.LettuceLockScorerFacade;
 import com.youth.submitquiz.redis.TicketNumberRepository;
 import com.youth.submitquiz.repository.MemberRepository;
 import com.youth.submitquiz.repository.QuizRepository;
@@ -23,7 +23,7 @@ public class ReplyService {
     private final MemberRepository memberRepository;
     private final ReplyRepository replyRepository;
     private final TicketNumberRepository ticketNumberRepository;
-    private final LettuceLockScorerUpdateFacade lettuceLockScorerUpdateFacade;
+    private final LettuceLockScorerFacade lettuceLockScorerFacade;
 
     @Transactional
     public ReplyResponse submitAnswer(SubmitAnswerRequest request) throws InterruptedException {
@@ -34,7 +34,7 @@ public class ReplyService {
         boolean isAnswer = isAnswer(findQuiz, request.answer());
 
         if (isAnswer) {
-            lettuceLockScorerUpdateFacade.checkAndThenUpdate(findQuiz, findMember, ticketNumber);
+            lettuceLockScorerFacade.checkAndThenUpdate(findQuiz, findMember, ticketNumber);
         }
 
         replyRepository.save(Reply.builder()

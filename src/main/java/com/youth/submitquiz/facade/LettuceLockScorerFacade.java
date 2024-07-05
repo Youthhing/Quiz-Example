@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LettuceLockScorerUpdateFacade {
+public class LettuceLockScorerFacade {
 
     private final RedisLockRepository redisLockRepository;
     private final ScorerService scorerService;
